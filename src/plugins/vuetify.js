@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
 import colors from 'vuetify/lib/util/colors';
-import 'vuetify/src/stylus/app.styl'
+import 'vuetify/src/stylus/app.styl';
 
 Vue.use(Vuetify, {
   theme: {
@@ -11,10 +11,10 @@ Vue.use(Vuetify, {
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
-    warning: '#FFC107'
+    warning: '#FFC107',
   },
   options: {
-    customProperties: true
+    customProperties: true,
   },
   iconfont: 'mdi',
-})
+});
