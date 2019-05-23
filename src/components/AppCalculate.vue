@@ -107,9 +107,7 @@
       row
       wrap
     >
-      <v-flex
-        xs12
-      >
+      <v-flex>
         <v-card>
           <v-form
             ref="form"
@@ -153,6 +151,7 @@
                       :label="field.label"
                       mask="###"
                       suffix="%"
+                      autofocus
                     />
                   </div>
                 </v-flex>
@@ -463,10 +462,10 @@ export default {
       });
     },
     deviation(array, total) {
-      return Math.abs(array.reduce((accumulator, element) => {
+      return array.reduce((accumulator, element) => {
         const value = element.value;
         return accumulator + value;
-      }, 0) - total);
+      }, 0) - total;
     },
     range(min, max) {
       return Array.from(
