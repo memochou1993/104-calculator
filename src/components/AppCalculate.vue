@@ -125,7 +125,6 @@
                     :items="candidates"
                     item-text="label"
                     item-value="value"
-                    append-icon=""
                   />
                 </v-flex>
               </v-layout>
