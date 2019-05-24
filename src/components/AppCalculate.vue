@@ -6,11 +6,13 @@
       name="fade"
     >
       <v-layout
-        v-if="analysis && total && expanded"
+        v-if="analysis && inputs.length && expanded"
       >
         <v-flex>
           <v-card>
-            <v-card-text>
+            <v-card-text
+              v-if="total"
+            >
               <v-layout>
                 <v-flex>
                   <v-tabs
@@ -113,6 +115,15 @@
                   </v-card>
                 </v-flex>
               </v-layout>
+            </v-card-text>
+            <v-card-text
+              v-else
+            >
+              <div
+                class="text-xs-center"
+              >
+                請提供更多數據。
+              </div>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -424,6 +435,9 @@ export default {
   computed: {
     options() {
       return this.unique(this.max([].concat(...this.values.map((element) => this.calculate(element, this.candidate.value)))));
+    },
+    inputs() {
+      return this.values.filter((element) => element.length);
     },
     tabs() {
       return this.options.filter((element) => element.total);
