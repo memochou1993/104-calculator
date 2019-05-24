@@ -13,10 +13,18 @@
       <v-spacer />
       <v-btn
         icon
-        @click="expand = !expand"
+        @click="expanded = !expanded"
       >
         <v-icon>
-          {{ `${expand ? 'mdi-window-open' : 'mdi-window-closed'}` }}
+          {{ `${expanded ? 'mdi-window-open' : 'mdi-window-closed'}` }}
+        </v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click="reset = reset + 1"
+      >
+        <v-icon>
+          mdi-refresh
         </v-icon>
       </v-btn>
     </v-toolbar>
@@ -26,7 +34,8 @@
       >
         <AppCalculate
           v-show="loaded"
-          :expand="expand"
+          :expanded="expanded"
+          :reset="reset"
         />
       </transition>
     </v-content>
@@ -55,7 +64,8 @@ export default {
   data() {
     return {
       loaded: false,
-      expand: true,
+      reset: 0,
+      expanded: true,
     };
   },
   mounted() {

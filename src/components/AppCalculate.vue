@@ -6,8 +6,7 @@
       name="fade"
     >
       <v-layout
-        v-if="total"
-        v-show="expand"
+        v-if="total && expanded"
       >
         <v-flex>
           <v-card>
@@ -15,10 +14,9 @@
               <v-layout>
                 <v-flex>
                   <v-tabs
-                    v-if="tabs.length"
+                    v-if="tabs.length && expanded"
                     v-model="tab"
-                    grow
-                    slider-color="primary"
+                    fixed-tabs
                   >
                     <v-tab
                       v-for="(tab, index) in tabs"
@@ -172,18 +170,6 @@
                   </div>
                 </v-flex>
               </v-layout>
-              <v-layout>
-                <v-flex>
-                  <v-btn
-                    block
-                    outline
-                    color="error"
-                    @click="reset"
-                  >
-                    清除
-                  </v-btn>
-                </v-flex>
-              </v-layout>
             </v-card-text>
           </v-form>
         </v-card>
@@ -195,7 +181,12 @@
 <script>
 export default {
   props: {
-    expand: {
+    reset: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    expanded: {
       type: Boolean,
       required: true,
     },
@@ -416,6 +407,11 @@ export default {
     };
   },
   watch: {
+    reset(value) {
+      this.$refs.form.reset();
+      this.candidate.value = this.candidates[0].value;
+      this.tab = 0;
+    },
     options(value) {
       this.tab = 0;
     },
@@ -526,11 +522,6 @@ export default {
           divisible: exceed ? 0 : divisible,
         };
       });
-    },
-    reset() {
-      this.tab = 0;
-      this.$refs.form.reset();
-      this.candidate.value = this.candidates[0].value;
     },
   },
 };
