@@ -89,7 +89,7 @@
                               <v-flex
                                 sm2
                                 xs12
-                                class="py-1 text-sm-right"
+                                class="pa-1 text-sm-right"
                               >
                                 {{ item.name }}
                               </v-flex>
@@ -107,7 +107,7 @@
                               <v-flex
                                 sm2
                                 xs2
-                                class="py-1"
+                                class="pa-1"
                               >
                                 {{ item.value }} 人
                               </v-flex>
