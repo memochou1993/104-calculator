@@ -7,7 +7,7 @@
       <v-toolbar-title
         class="headline"
       >
-        應徵人數計算器
+        104 應徵人數計算器
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
