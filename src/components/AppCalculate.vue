@@ -19,9 +19,9 @@
                 <v-layout>
                   <v-flex>
                     <v-tabs
-                      v-if="tabs.length && expanded"
+                      v-if="tabs.length"
                       v-model="tab"
-                      fixed-tabs
+                      grow
                     >
                       <v-tab
                         v-for="(tab, index) in tabs"
@@ -548,9 +548,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.inline {
-  float: left;
-}
-</style>
