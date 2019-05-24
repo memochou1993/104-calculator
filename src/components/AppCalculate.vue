@@ -14,6 +14,7 @@
                   v-if="tabs.length"
                   v-model="tab"
                   grow
+                  slider-color="primary"
                 >
                   <v-tab
                     v-for="(tab, index) in tabs"
