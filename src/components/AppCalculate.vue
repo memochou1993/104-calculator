@@ -46,17 +46,28 @@
                       column
                     >
                       <v-flex>
-                        <span
-                          class="d-inline-flex inline title mb-0"
+                        <v-layout
+                          row
+                          wrap
                         >
-                          {{ group.name }}
-                        </span>
-                        <span
-                          v-if="deviation(group.items, total)"
-                          class="d-inline-flex inline title mb-0"
-                        >
-                          （誤差：{{ deviation(group.items, total) }} 人）
-                        </span>
+                          <v-flex>
+                            <div
+                              class="title"
+                            >
+                              {{ group.name }}
+                            </div>
+                          </v-flex>
+                          <v-flex
+                            class="text-xs-right"
+                          >
+                            <div
+                              v-if="deviation(group.items, total)"
+                              class="error--text"
+                            >
+                              （誤差：{{ deviation(group.items, total) }} 人）
+                            </div>
+                          </v-flex>
+                        </v-layout>
                       </v-flex>
                       <v-divider />
                       <v-flex

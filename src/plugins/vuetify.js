@@ -6,12 +6,12 @@ import 'vuetify/src/stylus/app.styl';
 Vue.use(Vuetify, {
   theme: {
     primary: colors.lightBlue,
-    secondary: '#424242',
+    secondary: colors.grey,
     accent: colors.purple,
     error: colors.red,
     info: colors.amber,
-    success: '#4CAF50',
-    warning: '#FFC107',
+    success: colors.lightGreen,
+    warning: colors.orange,
   },
   options: {
     customProperties: true,
