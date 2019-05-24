@@ -11,16 +11,17 @@
             <v-layout>
               <v-flex>
                 <v-tabs
-                  v-if="possibilities.length"
-                  v-model="option"
+                  v-if="options.length"
+                  v-model="index"
                   grow
+                  color="transparent"
                 >
                   <v-tab
-                    v-for="(possibility, index) in possibilities"
+                    v-for="(option, index) in options"
                     :key="index"
                     class="title"
                   >
-                    {{ possibility.total }} 人
+                    {{ option.total }} 人
                   </v-tab>
                 </v-tabs>
               </v-flex>
@@ -59,8 +60,8 @@
                       </v-flex>
                       <v-divider />
                       <v-flex
-                        v-for="(item, i) in group.items"
-                        :key="i"
+                        v-for="(item, index) in group.items"
+                        :key="index"
                       >
                         <v-layout
                           row
@@ -80,9 +81,9 @@
                             class="py-1"
                           >
                             <v-progress-linear
-                              height="15"
                               color="amber"
                               :value="percentage(item.value, total)"
+                              :height="15"
                             />
                           </v-flex>
                           <v-flex
@@ -179,7 +180,7 @@
 export default {
   data() {
     return {
-      option: 0,
+      index: 0,
       candidate: {
         label: '1-5 人',
         value: {
@@ -393,18 +394,19 @@ export default {
   },
   watch: {
     results(value) {
+      console.log(value);
       this.fill(value);
     },
   },
   computed: {
-    possibilities() {
+    options() {
       return this.unique(this.max([].concat(...this.values.map((element) => this.calculate(element, this.candidate.value)))));
     },
     total() {
       if (!this.values.length) {
         return 0;
       }
-      return this.possibilities[this.option].total;
+      return this.options[this.index].total;
     },
     groups() {
       if (!this.total) {
@@ -437,9 +439,6 @@ export default {
           }),
         };
       });
-    },
-    analyze(array) {
-      return this.unique(this.max([].concat(...array.map((element) => this.calculate(element, this.candidate.value)))));
     },
     convert(array, {
       total = 0,
@@ -478,10 +477,8 @@ export default {
       return value / total * 100;
     },
     fill(array) {
-      this.option = 0;
-      this.values = array.map((element) => {
-        return element.filter(Number);
-      });
+      this.index = 0;
+      this.values = array.map((element) => element.filter(Number));
     },
     calculate(array, {
       min = 1,
@@ -496,18 +493,16 @@ export default {
           const value = Math.round(element * index % 1 * 10) / 10 % 1 === 0 ? 1 : 0;
           return accumulator + value;
         }, 0);
+        const exceed = total > max;
         return {
-          total: total <= max ? total : 0,
-          divisible: total <= max ? divisible : 0,
+          total: exceed ? 0 : total,
+          divisible: exceed ? 0 : divisible,
         };
       });
     },
     reset() {
       this.$refs.form.reset();
-      this.candidate.value = {
-        min: 1,
-        max: 5,
-      };
+      this.candidate.value = this.candidates[0].value;
     },
   },
 };
