@@ -123,7 +123,7 @@
                 v-else
                 class="text-xs-center"
               >
-                請提供更多數據。
+                請提供合理的數據。
               </div>
             </v-card-text>
           </v-card>
