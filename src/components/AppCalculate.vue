@@ -11,17 +11,16 @@
             <v-layout>
               <v-flex>
                 <v-tabs
-                  v-if="options.length"
-                  v-model="index"
+                  v-if="tabs.length"
+                  v-model="tab"
                   grow
-                  color="transparent"
                 >
                   <v-tab
-                    v-for="(option, index) in options"
+                    v-for="(tab, index) in tabs"
                     :key="index"
                     class="title"
                   >
-                    {{ option.total }} 人
+                    {{ tab.total }} 人
                   </v-tab>
                 </v-tabs>
               </v-flex>
@@ -81,7 +80,7 @@
                             class="py-1"
                           >
                             <v-progress-linear
-                              color="amber"
+                              color="info"
                               :value="percentage(item.value, total)"
                               :height="15"
                             />
@@ -180,7 +179,7 @@
 export default {
   data() {
     return {
-      index: 0,
+      tab: 0,
       candidate: {
         label: '1-5 人',
         value: {
@@ -393,8 +392,10 @@ export default {
     };
   },
   watch: {
+    options(value) {
+      this.tab = 0;
+    },
     results(value) {
-      console.log(value);
       this.fill(value);
     },
   },
@@ -402,11 +403,14 @@ export default {
     options() {
       return this.unique(this.max([].concat(...this.values.map((element) => this.calculate(element, this.candidate.value)))));
     },
+    tabs() {
+      return this.options.filter((element) => element.total);
+    },
     total() {
       if (!this.values.length) {
         return 0;
       }
-      return this.options[this.index].total;
+      return this.options[this.tab].total;
     },
     groups() {
       if (!this.total) {
@@ -477,7 +481,6 @@ export default {
       return value / total * 100;
     },
     fill(array) {
-      this.index = 0;
       this.values = array.map((element) => element.filter(Number));
     },
     calculate(array, {
@@ -501,6 +504,7 @@ export default {
       });
     },
     reset() {
+      this.tab = 0;
       this.$refs.form.reset();
       this.candidate.value = this.candidates[0].value;
     },
