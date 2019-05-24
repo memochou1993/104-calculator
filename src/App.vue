@@ -6,7 +6,7 @@
     >
       <v-toolbar-title
         class="headline pointer"
-        @click="refresh()"
+        @click="reload"
       >
         104 應徵人數計算器
       </v-toolbar-title>
@@ -16,12 +16,12 @@
         @click="expanded = !expanded"
       >
         <v-icon>
-          {{ `${expanded ? 'mdi-window-open' : 'mdi-window-closed'}` }}
+          {{ `mdi-arrow-${expanded ? 'collapse' : 'expand'}-vertical` }}
         </v-icon>
       </v-btn>
       <v-btn
         icon
-        @click="reset = reset + 1"
+        @click="refreshed = refreshed + 1"
       >
         <v-icon>
           mdi-refresh
@@ -35,7 +35,7 @@
         <AppCalculate
           v-show="loaded"
           :expanded="expanded"
-          :reset="reset"
+          :refreshed="refreshed"
         />
       </transition>
     </v-content>
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       loaded: false,
-      reset: 0,
+      refreshed: 0,
       expanded: true,
     };
   },
@@ -72,7 +72,7 @@ export default {
     this.loaded = true;
   },
   methods: {
-    refresh() {
+    reload() {
       window.location = '/';
     },
   },
@@ -82,10 +82,9 @@ export default {
 <style lang="stylus">
 .pointer
   cursor pointer
-.fade-enter-active
-  transition opacity 0.5s
+.fade-enter-active,
 .fade-leave-active
-  transition opacity 0s
+  transition opacity 0.5s
 .fade-enter,
 .fade-leave-to
   opacity 0

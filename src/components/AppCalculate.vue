@@ -6,120 +6,121 @@
       name="fade"
     >
       <v-layout
-        v-if="inputted && inputs.length && expanded"
+        v-if="inputted && inputs.length"
       >
-        <v-flex>
+        <v-flex
+          v-if="expanded"
+        >
           <v-card>
-            <v-card-text
-              v-if="total"
-            >
-              <v-layout>
-                <v-flex>
-                  <v-tabs
-                    v-if="tabs.length && expanded"
-                    v-model="tab"
-                    fixed-tabs
-                  >
-                    <v-tab
-                      v-for="(tab, index) in tabs"
-                      :key="index"
-                      class="title"
-                    >
-                      {{ tab.total }} 人
-                    </v-tab>
-                  </v-tabs>
-                </v-flex>
-              </v-layout>
-              <v-layout
-                row
-                wrap
-              >
-                <v-flex
-                  v-for="(group, index) in groups"
-                  :key="index"
-                  sm6
-                  xs12
-                >
-                  <v-card
-                    v-if="group.items.length"
-                    height="100%"
-                    class="elevation-0"
-                  >
-                    <v-card-text>
-                      <v-layout
-                        column
-                      >
-                        <v-flex>
-                          <v-layout
-                            row
-                            wrap
-                          >
-                            <v-flex>
-                              <div
-                                class="title"
-                              >
-                                {{ group.name }}
-                              </div>
-                            </v-flex>
-                            <v-flex
-                              class="text-xs-right"
-                            >
-                              <div
-                                v-if="deviation(group.items, total)"
-                                class="error--text"
-                              >
-                                （誤差：{{ deviation(group.items, total) }} 人）
-                              </div>
-                            </v-flex>
-                          </v-layout>
-                        </v-flex>
-                        <v-divider />
-                        <v-flex
-                          v-for="(item, index) in group.items"
-                          :key="index"
-                        >
-                          <v-layout
-                            row
-                            wrap
-                            align-center
-                          >
-                            <v-flex
-                              sm2
-                              xs12
-                              class="py-1 text-sm-right"
-                            >
-                              {{ item.name }}
-                            </v-flex>
-                            <v-flex
-                              sm8
-                              xs10
-                              class="py-1"
-                            >
-                              <v-progress-linear
-                                color="info"
-                                :value="percentage(item.value, total)"
-                                :height="15"
-                              />
-                            </v-flex>
-                            <v-flex
-                              sm2
-                              xs2
-                              class="py-1"
-                            >
-                              {{ item.value }} 人
-                            </v-flex>
-                          </v-layout>
-                        </v-flex>
-                      </v-layout>
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-card-text>
-            <v-card-text
-              v-else
-            >
+            <v-card-text>
               <div
+                v-if="total"
+              >
+                <v-layout>
+                  <v-flex>
+                    <v-tabs
+                      v-if="tabs.length && expanded"
+                      v-model="tab"
+                      fixed-tabs
+                    >
+                      <v-tab
+                        v-for="(tab, index) in tabs"
+                        :key="index"
+                        class="title"
+                      >
+                        {{ tab.total }} 人
+                      </v-tab>
+                    </v-tabs>
+                  </v-flex>
+                </v-layout>
+                <v-layout
+                  row
+                  wrap
+                >
+                  <v-flex
+                    v-for="(group, index) in groups"
+                    :key="index"
+                    sm6
+                    xs12
+                  >
+                    <v-card
+                      v-if="group.items.length"
+                      height="100%"
+                      class="elevation-0"
+                    >
+                      <v-card-text>
+                        <v-layout
+                          column
+                        >
+                          <v-flex>
+                            <v-layout
+                              row
+                              wrap
+                            >
+                              <v-flex>
+                                <div
+                                  class="title"
+                                >
+                                  {{ group.name }}
+                                </div>
+                              </v-flex>
+                              <v-flex
+                                class="text-xs-right"
+                              >
+                                <div
+                                  v-if="deviation(group.items, total)"
+                                  class="error--text"
+                                >
+                                  （誤差：{{ deviation(group.items, total) }} 人）
+                                </div>
+                              </v-flex>
+                            </v-layout>
+                          </v-flex>
+                          <v-divider />
+                          <v-flex
+                            v-for="(item, index) in group.items"
+                            :key="index"
+                          >
+                            <v-layout
+                              row
+                              wrap
+                              align-center
+                            >
+                              <v-flex
+                                sm2
+                                xs12
+                                class="py-1 text-sm-right"
+                              >
+                                {{ item.name }}
+                              </v-flex>
+                              <v-flex
+                                sm8
+                                xs10
+                                class="py-1"
+                              >
+                                <v-progress-linear
+                                  color="info"
+                                  :value="percentage(item.value, total)"
+                                  :height="15"
+                                />
+                              </v-flex>
+                              <v-flex
+                                sm2
+                                xs2
+                                class="py-1"
+                              >
+                                {{ item.value }} 人
+                              </v-flex>
+                            </v-layout>
+                          </v-flex>
+                        </v-layout>
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </div>
+              <div
+                v-else
                 class="text-xs-center"
               >
                 請提供更多數據。
@@ -192,14 +193,15 @@
 <script>
 export default {
   props: {
-    reset: {
+    expanded: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    refreshed: {
       type: Number,
       required: false,
       default: 0,
-    },
-    expanded: {
-      type: Boolean,
-      required: true,
     },
   },
   data() {
@@ -419,7 +421,7 @@ export default {
     };
   },
   watch: {
-    reset(value) {
+    refreshed(value) {
       this.inputted = false;
       this.$refs.form.reset();
       this.candidate.value = this.candidates[0].value;
