@@ -1,8 +1,29 @@
 <template>
   <v-app>
+    <v-toolbar
+      dark
+      color="primary lighten-2"
+    >
+      <v-toolbar-title
+        class="headline"
+      >
+        應徵人數計算器
+      </v-toolbar-title>
+    </v-toolbar>
     <v-content>
       <AppCalculate />
     </v-content>
+    <v-footer
+      height="auto"
+    >
+      <v-card
+        class="flex primary lighten-2 white--text text-xs-center"
+      >
+        <v-card-text>
+          &copy; {{ (new Date).getFullYear() }} Memo Chou
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
