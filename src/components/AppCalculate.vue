@@ -430,6 +430,9 @@ export default {
     options(value) {
       this.tab = 0;
     },
+    total(value) {
+      this.$emit('unlock', value);
+    },
     results(value) {
       this.fill(value);
     },

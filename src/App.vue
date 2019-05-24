@@ -13,6 +13,7 @@
       <v-spacer />
       <v-btn
         icon
+        :disabled="lock"
         @click="expanded = !expanded"
       >
         <v-icon>
@@ -36,6 +37,7 @@
           v-show="loaded"
           :expanded="expanded"
           :refreshed="refreshed"
+          @unlock="unlock"
         />
       </transition>
     </v-content>
@@ -66,6 +68,7 @@ export default {
       loaded: false,
       refreshed: 0,
       expanded: true,
+      lock: true,
     };
   },
   mounted() {
@@ -75,6 +78,9 @@ export default {
     reload() {
       window.location = '/';
     },
+    unlock(value) {
+      this.lock = !value;
+    },
   },
 };
 </script>
@@ -82,9 +88,10 @@ export default {
 <style lang="stylus">
 .pointer
   cursor pointer
-.fade-enter-active,
-.fade-leave-active
+.fade-enter-active
   transition opacity 0.5s
+.fade-leave-active
+  transition opacity 0s
 .fade-enter,
 .fade-leave-to
   opacity 0
