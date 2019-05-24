@@ -6,7 +6,7 @@
       name="fade"
     >
       <v-layout
-        v-if="total && expanded"
+        v-if="analysis && total && expanded"
       >
         <v-flex>
           <v-card>
@@ -194,6 +194,7 @@ export default {
   data() {
     return {
       loaded: false,
+      analysis: false,
       tab: 0,
       candidate: {
         label: '1-5 人',
@@ -408,6 +409,7 @@ export default {
   },
   watch: {
     reset(value) {
+      this.analysis = false;
       this.$refs.form.reset();
       this.candidate.value = this.candidates[0].value;
       this.tab = 0;
@@ -501,6 +503,7 @@ export default {
       return value / total * 100;
     },
     fill(array) {
+      this.analysis = true;
       this.values = array.map((element) => element.filter(Number));
     },
     calculate(array, {
