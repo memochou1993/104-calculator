@@ -2,7 +2,7 @@
   <v-app>
     <v-toolbar
       dark
-      color="primary lighten-2"
+      color="accent lighten-2"
     >
       <v-toolbar-title
         class="headline"
@@ -17,7 +17,7 @@
       height="auto"
     >
       <v-card
-        class="flex primary lighten-2 white--text text-xs-center"
+        class="flex accent lighten-2 white--text text-xs-center"
       >
         <v-card-text>
           &copy; {{ (new Date).getFullYear() }} Memo Chou

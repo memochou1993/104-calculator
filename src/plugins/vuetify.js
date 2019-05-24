@@ -7,7 +7,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: colors.lightBlue,
     secondary: '#424242',
-    accent: '#82B1FF',
+    accent: colors.purple,
     error: colors.red,
     info: colors.amber,
     success: '#4CAF50',
