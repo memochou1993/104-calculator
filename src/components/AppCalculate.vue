@@ -176,6 +176,7 @@
                       v-model="field.model"
                       :label="field.label"
                       mask="###"
+                      type="tel"
                       suffix="%"
                       autofocus
                     />
