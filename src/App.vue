@@ -22,10 +22,18 @@
       </v-btn>
       <v-btn
         icon
-        @click="refreshed = refreshed + 1"
+        @click="refresh"
       >
         <v-icon>
           mdi-refresh
+        </v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click="link"
+      >
+        <v-icon>
+          mdi-facebook-box
         </v-icon>
       </v-btn>
     </v-toolbar>
@@ -80,6 +88,12 @@ export default {
     },
     unlock(value) {
       this.lock = !value;
+    },
+    refresh() {
+      this.refreshed += 1;
+    },
+    link() {
+      window.open('//fb.me/104calculator', '_blank');
     },
   },
 };
