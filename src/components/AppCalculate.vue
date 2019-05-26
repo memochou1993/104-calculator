@@ -91,7 +91,11 @@
                                 xs12
                                 class="pa-1 text-sm-right"
                               >
-                                {{ item.name }}
+                                <span
+                                  class="default"
+                                >
+                                  {{ item.name }}
+                                </span>
                               </v-flex>
                               <v-flex
                                 sm8
@@ -109,7 +113,24 @@
                                 xs2
                                 class="pa-1"
                               >
-                                {{ item.value }} 人
+                                <v-tooltip
+                                  right
+                                  color="primary lighten-4 black--text elevation-0"
+                                >
+                                  <template
+                                    v-slot:activator="{ on }"
+                                  >
+                                    <span
+                                      v-on="on"
+                                      class="default"
+                                    >
+                                      {{ item.value }} 人
+                                    </span>
+                                  </template>
+                                  <span>
+                                    {{ percentage(item.value, total) }}%
+                                  </span>
+                                </v-tooltip>
                               </v-flex>
                             </v-layout>
                           </v-flex>
@@ -520,7 +541,7 @@ export default {
       );
     },
     percentage(value, total) {
-      return value / total * 100;
+      return Math.round(value / total * 1000) / 10;
     },
     fill(array) {
       this.inputted = true;
@@ -549,3 +570,8 @@ export default {
   },
 };
 </script>
+
+<style lang="stylus" scoped>
+.default
+  cursor default
+</style>
