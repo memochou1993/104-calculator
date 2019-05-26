@@ -261,7 +261,7 @@ export default {
           },
         },
         {
-          label: '30 人以上',
+          label: '31 人以上',
           value: {
             min: 31,
             max: 60,
