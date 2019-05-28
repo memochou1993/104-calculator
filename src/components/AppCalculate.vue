@@ -14,7 +14,7 @@
           <v-card>
             <v-card-text>
               <div
-                v-if="total"
+                v-if="total && tabs.length && groups.length"
               >
                 <v-layout>
                   <v-flex>
@@ -77,63 +77,67 @@
                             </v-layout>
                           </v-flex>
                           <v-divider />
-                          <v-flex
+                          <div
                             v-for="(item, index) in group.items"
                             :key="index"
                           >
-                            <v-layout
-                              row
-                              wrap
-                              align-center
+                            <v-flex
+                              v-if="item.value"
                             >
-                              <v-flex
-                                sm2
-                                xs12
-                                class="pa-1 text-sm-right"
+                              <v-layout
+                                row
+                                wrap
+                                align-center
                               >
-                                <span
-                                  class="default"
+                                <v-flex
+                                  sm2
+                                  xs12
+                                  class="pa-1 text-sm-right"
                                 >
-                                  {{ item.name }}
-                                </span>
-                              </v-flex>
-                              <v-flex
-                                sm8
-                                xs10
-                                class="py-1"
-                              >
-                                <v-progress-linear
-                                  color="info"
-                                  :value="percentage(item.value, total)"
-                                  :height="15"
-                                />
-                              </v-flex>
-                              <v-flex
-                                sm2
-                                xs2
-                                class="pa-1"
-                              >
-                                <v-tooltip
-                                  right
-                                  color="primary lighten-4 black--text elevation-0"
-                                >
-                                  <template
-                                    v-slot:activator="{ on }"
+                                  <span
+                                    class="default"
                                   >
-                                    <span
-                                      v-on="on"
-                                      class="default"
-                                    >
-                                      {{ item.value }} 人
-                                    </span>
-                                  </template>
-                                  <span>
-                                    {{ percentage(item.value, total) }}%
+                                    {{ item.name }}
                                   </span>
-                                </v-tooltip>
-                              </v-flex>
-                            </v-layout>
-                          </v-flex>
+                                </v-flex>
+                                <v-flex
+                                  sm8
+                                  xs10
+                                  class="py-1"
+                                >
+                                  <v-progress-linear
+                                    color="info"
+                                    :value="percentage(item.value, total)"
+                                    :height="15"
+                                  />
+                                </v-flex>
+                                <v-flex
+                                  sm2
+                                  xs2
+                                  class="pa-1"
+                                >
+                                  <v-tooltip
+                                    right
+                                    color="primary lighten-4 black--text elevation-0"
+                                  >
+                                    <template
+                                      v-slot:activator="{ on }"
+                                    >
+                                      <span
+                                        v-on="on"
+                                        class="default"
+                                      >
+                                        {{ item.value }} 人
+                                      </span>
+                                    </template>
+                                    <span>
+                                      {{ percentage(item.value, total) }}%
+                                    </span>
+                                  </v-tooltip>
+                                </v-flex>
+                              </v-layout>
+                            </v-flex>
+                          </div>
                         </v-layout>
                       </v-card-text>
                     </v-card>
@@ -461,16 +465,30 @@ export default {
   },
   computed: {
     options() {
-      return this.unique(this.max([].concat(...this.values.map((element) => this.calculate(element, this.candidate.value)))));
+      return this.unique(
+        this.max(
+          this.exist(
+            [].concat(
+              ...this.values.map((element) => {
+                return this.calculate(element, this.candidate.value);
+              })
+            )
+          )
+        )
+      );
     },
     inputs() {
-      return this.values.filter((element) => element.length);
+      return this.values.filter((row) => {
+        return row.filter((column) => column).length;
+      });
     },
     tabs() {
-      return this.options.filter((element) => element.total);
+      return this.options.filter((element) => {
+        return element.total >= this.candidate.value.min;
+      });
     },
     total() {
-      if (!this.values.length) {
+      if (!this.values.length || !this.options.length) {
         return 0;
       }
       return this.options[this.tab].total;
@@ -481,8 +499,10 @@ export default {
       }
       return this.associate(this.fields, this.convert(this.values, {
         total: this.total,
-      })).filter((element) => {
-        return element.items.length;
+      })).filter((row) => {
+        return row.items.filter((column) => {
+          return column.value;
+        }).length;
       });
     },
     results() {
@@ -526,6 +546,11 @@ export default {
         });
       });
     },
+    exist(array) {
+      return array.filter((element) => {
+        return element.total;
+      });
+    },
     deviation(array, total) {
       return array.reduce((accumulator, element) => {
         const value = element.value;
@@ -545,7 +570,7 @@ export default {
     },
     fill(array) {
       this.inputted = true;
-      this.values = array.map((element) => element.filter(Number));
+      this.values = array
     },
     calculate(array, {
       min = 1,
