@@ -1,4 +1,4 @@
-# calculator
+# 104calculator
 
 ## Project setup
 ```
