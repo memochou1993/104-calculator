@@ -41,7 +41,7 @@
       <transition
         name="fade"
       >
-        <AppCalculate
+        <AppCalculator
           v-show="loaded"
           :expanded="expanded"
           :refreshed="refreshed"
@@ -64,12 +64,12 @@
 </template>
 
 <script>
-import AppCalculate from '@/components/AppCalculate';
+import AppCalculator from '@/components/AppCalculator';
 
 export default {
   name: 'App',
   components: {
-    AppCalculate,
+    AppCalculator,
   },
   data() {
     return {
